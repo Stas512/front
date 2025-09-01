@@ -7,7 +7,14 @@
 <body>
   <h1>Пример Web App для Telegram</h1>
   <div id="welcome"></div>
-  <button id="sendDataBtn">Отправить данные на сервер</button>
+
+  <!-- Блок с кнопками -->
+  <div style="margin-top: 20px;">
+    <button id="menuBtn" style="margin-right: 10px;">Меню</button>
+    <button id="closeBtn">Закрыть</button>
+  </div>
+
+  <button id="sendDataBtn" style="display: block; margin-top: 20px;">Отправить данные на сервер</button>
 
   <script>
     const tg = window.Telegram.WebApp;
@@ -30,6 +37,17 @@
       .then(res => res.json())
       .then(res => alert('Данные отправлены: ' + JSON.stringify(res)))
       .catch(console.error);
+    });
+
+    // Обработчик кнопки "Меню"
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      alert('Здесь можно открыть меню или реализовать навигацию');
+      // Здесь добавьте ваш код открытия меню
+    });
+
+    // Обработчик кнопки "Закрыть"
+    document.getElementById('closeBtn').addEventListener('click', () => {
+      tg.close();
     });
   </script>
 </body>
