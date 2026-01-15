@@ -4,17 +4,25 @@ import Search from './components/Search/Search';
 import AddListing from './components/AddListing/AddListing';
 import UserProfile from './components/UserProfile/UserProfile';
 import { init, backButton } from '@telegram-apps/sdk-react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 
+// Расширить Window тип для Telegram
+declare global {
+  interface Window {
+    Telegram: any;
+  }
+}
+
 function App() {
-  const [count, setCount] = useState(0);
   const [page, setPage] = useState('home');
 
   useEffect(() => {
     try {
       init();
+      // Безопасная проверка Telegram WebApp
+      if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+        window.Telegram.WebApp.expand();  // Полноэкранный режим
+      }
       backButton.mount();
     } catch (error: unknown) {
       console.error('Ошибка инициализации Telegram SDK:', error);
@@ -29,32 +37,35 @@ function App() {
     setPage(pageName);
   };
 
+  const handleAddListing = (title: string, description: string) => {
+    console.log('Add listing:', title, description);
+  };
+
+  const handleSearch = (query: string) => {
+    console.log('Search query:', query);
+  };
+
   return (
-    <>
+    <div className="app">
       <Menu onNavigate={handleNavigate} />
+      
       {page === 'home' && (
-        <>
-          <div>
-            <a href="https://vite.dev" target="_blank" rel="noreferrer">
-              <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank" rel="noreferrer">
-              <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
-          </div>
-          <h1>Vite + React</h1>
-          <div className="card">
-            <button onClick={() => setCount((count) => count + 1)}>
-              count is {count}
-            </button>
-            <p>Edit <code>src/App.tsx</code> and save to test HMR</p>
-          </div>
-        </>
+        <div className="home">
+          <h1>📱 Telegram Web App</h1>
+          <p>Добро пожаловать! Используйте меню для навигации.</p>
+        </div>
       )}
-      {page === 'search' && <Search onSearch={(q) => console.log('Search query:', q)} />}
-      {page === 'add' && <AddListing onAdd={(title, desc) => console.log('Add listing:', title, desc)} />}
-      {page === 'profile' && <UserProfile username="User" email="user@example.com" onLogout={() => console.log('Logout')} />}
-    </>
+      
+      {page === 'search' && <Search onSearch={handleSearch} />}
+      {page === 'add' && <AddListing onAdd={handleAddListing} />}
+      {page === 'profile' && (
+        <UserProfile 
+          username="Пользователь" 
+          email="example@domain.com" 
+          onLogout={() => console.log('Logout')} 
+        />
+      )}
+    </div>
   );
 }
 
