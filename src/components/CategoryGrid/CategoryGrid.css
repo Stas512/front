@@ -1,0 +1,44 @@
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 колонки */
+  gap: 12px;                /* ✅ ПРОСТРАНСТВО МЕЖДУ карточками */
+  padding: 16px;            /* ✅ ОТСТУПЫ ОТ КРАЕВ */
+  margin: 0;
+}
+
+.category-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;      /* ✅ СКОРУГЛЁННЫЕ углы */
+  padding: 16px;            /* ✅ ВНУТРЕННИЙ ОТСТУП */
+  box-sizing: border-box;   /* ✅ Padding входит в ширину */
+  height: 120px;            /* ✅ ФИКСИРОВАННАЯ высота */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: transform 0.2s;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+}
+
+.emoji {
+  font-size: 32px;          /* ✅ БОЛЬШИЕ эмодзи */
+  margin-bottom: 8px;
+}
+
+.cat-name {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+
+.top-ad {
+  font-size: 10px;
+  opacity: 0.9;
+}

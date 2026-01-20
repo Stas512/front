@@ -2,11 +2,12 @@ import React from 'react'
 
 type MenuProps = {
   onNavigate: (page: string) => void
+  className?: string  // ✅ Добавлено!
 }
 
-const Menu: React.FC<MenuProps> = ({ onNavigate }) => {
+const Menu: React.FC<MenuProps> = ({ onNavigate, className }) => {
   return (
-    <nav>
+    <nav className={className}>  // ✅ Использует className из App.tsx
       <ul>
         <li><button onClick={() => onNavigate('home')}>Главная</button></li>
         <li><button onClick={() => onNavigate('search')}>Поиск</button></li>

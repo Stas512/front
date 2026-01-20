@@ -1,70 +1,81 @@
 import { useEffect, useState } from 'react';
+import { init, backButton } from '@telegram-apps/sdk-react';
+import Header from './components/Header/Header';
+import CategoryGrid from './components/CategoryGrid/CategoryGrid';
+import PlaceAdButton from './components/PlaceAdButton/PlaceAdButton';
 import Menu from './components/Menu/Menu';
 import Search from './components/Search/Search';
 import AddListing from './components/AddListing/AddListing';
 import UserProfile from './components/UserProfile/UserProfile';
-import { init, backButton } from '@telegram-apps/sdk-react';
 import './App.css';
 
-// Расширить Window тип для Telegram
-declare global {
-  interface Window {
-    Telegram: any;
-  }
-}
+type Page = 'home' | 'search' | 'add' | 'profile';
 
 function App() {
-  const [page, setPage] = useState('home');
+  const [page, setPage] = useState<Page>('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // ✅ ФИНАЛЬНЫЙ useEffect (ПК F11 + Мобильный fullscreen)
   useEffect(() => {
-    try {
-      init();
-      // Безопасная проверка Telegram WebApp
-      if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
-        window.Telegram.WebApp.expand();  // Полноэкранный режим
+    init();
+    
+    if (window.Telegram?.WebApp) {
+      // ✅ Мобильный: 100vh без поля ввода
+      window.Telegram.WebApp.expand();
+      
+      // ✅ ПК: настоящий F11 fullscreen
+      if (window.Telegram.WebApp.requestFullscreen) {
+        window.Telegram.WebApp.requestFullscreen();
       }
-      backButton.mount();
-    } catch (error: unknown) {
-      console.error('Ошибка инициализации Telegram SDK:', error);
+      
+      // ✅ MainButton (зеленая кнопка снизу)
+      window.Telegram.WebApp.MainButton.text = "🚀 Разместить объявление";
+      window.Telegram.WebApp.MainButton.onClick(() => {
+        setPage('add');
+      });
+      window.Telegram.WebApp.MainButton.show();
+      
+      // ✅ Фиолетовый градиент хедера Telegram
+      window.Telegram.WebApp.headerColor = "#6366f1";
     }
-
-    return () => {
-      backButton.unmount();
-    };
+    
+    backButton.mount();
+    return () => backButton.unmount();
   }, []);
 
   const handleNavigate = (pageName: string) => {
-    setPage(pageName);
+    setPage(pageName as Page);
+    setIsMenuOpen(false);
   };
 
-  const handleAddListing = (title: string, description: string) => {
-    console.log('Add listing:', title, description);
-  };
-
-  const handleSearch = (query: string) => {
-    console.log('Search query:', query);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <div className="app">
-      <Menu onNavigate={handleNavigate} />
+      <Header onMenuToggle={toggleMenu} />
       
-      {page === 'home' && (
-        <div className="home">
-          <h1>📱 Telegram Web App</h1>
-          <p>Добро пожаловать! Используйте меню для навигации.</p>
-        </div>
+      {isMenuOpen && (
+        <Menu onNavigate={handleNavigate} className="menu-overlay" />
       )}
       
-      {page === 'search' && <Search onSearch={handleSearch} />}
-      {page === 'add' && <AddListing onAdd={handleAddListing} />}
-      {page === 'profile' && (
-        <UserProfile 
-          username="Пользователь" 
-          email="example@domain.com" 
-          onLogout={() => console.log('Logout')} 
-        />
-      )}
+      <main className="main-content">
+        {page === 'home' && (
+          <>
+            <CategoryGrid />
+            <PlaceAdButton />
+          </>
+        )}
+        
+        {page === 'search' && <Search onSearch={() => {}} />}
+        {page === 'add' && <AddListing onAdd={() => {}} />}
+        {page === 'profile' && (
+          <UserProfile 
+            username="Пользователь" 
+            email="example@domain.com" 
+            onLogout={() => {}}
+          />
+        )}
+      </main>
     </div>
   );
 }
