@@ -1,69 +1,143 @@
-/* src/App.css - Полная замена */
-.app { height: 100vh; max-width: 100vw; overflow: hidden; }
+/* src/App.css - Адаптивная версия + фон photo.png */
+.app { 
+  width: 100%; 
+  height: 100%; 
+  display: flex; 
+  flex-direction: column;
+  overflow: hidden;
+  
+  /* photo.png ФОНОМ */
+  background-image: url('./photo.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 
 .header {
-  position: relative; height: 80px; 
+  position: relative; 
+  height: clamp(70px, 12vw, 100px); 
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white; padding: 12px;
+  color: white; 
+  padding: clamp(8px, 2vw, 16px);
+  flex-shrink: 0;
 }
 
 .lang-switcher {
-  position: absolute; left: 12px; top: 12px;
-  background: rgba(255,255,255,0.2); border: none;
-  font-size: 20px; padding: 8px 12px; border-radius: 20px;
+  position: absolute; 
+  left: clamp(8px, 2vw, 12px); 
+  top: clamp(8px, 2vw, 12px);
+  background: rgba(255,255,255,0.2); 
+  border: none;
+  font-size: clamp(16px, 4vw, 20px); 
+  padding: clamp(6px, 1.5vw, 8px) clamp(8px, 2vw, 12px); 
+  border-radius: 20px;
 }
 
 .city { 
-  position: absolute; left: 50%; top: 20px; 
-  transform: translateX(-50%); font-weight: bold; font-size: 18px;
+  position: absolute; 
+  left: 50%; 
+  top: clamp(16px, 4vw, 20px); 
+  transform: translateX(-50%); 
+  font-weight: bold; 
+  font-size: clamp(16px, 4vw, 18px);
 }
 
 .menu-btn {
-  position: absolute; right: 12px; top: 12px;
-  background: none; border: none; font-size: 24px; color: white;
+  position: absolute; 
+  right: clamp(8px, 2vw, 12px); 
+  top: clamp(8px, 2vw, 12px);
+  background: none; 
+  border: none; 
+  font-size: clamp(20px, 5vw, 24px); 
+  color: white;
 }
 
 .search-container {
-  position: absolute; left: 50%; top: 55px;
-  transform: translateX(-50%); width: 90%; max-width: 400px;
+  position: absolute; 
+  left: 50%; 
+  top: clamp(60px, 10vw, 90px);
+  transform: translateX(-50%); 
+  width: clamp(85%, 90vw, 450px);
 }
 
 .search-input {
-  width: 85%; padding: 12px 16px; border: none;
-  border-radius: 25px 0 0 25px; font-size: 16px;
+  width: 85%; 
+  padding: clamp(10px, 2.5vw, 12px) clamp(12px, 3vw, 16px); 
+  border: none;
+  border-radius: 25px 0 0 25px; 
+  font-size: clamp(14px, 4vw, 16px);
 }
 
 .filters-btn {
-  width: 15%; padding: 12px; background: #ff6b6b;
-  border: none; border-radius: 0 25px 25px 0; color: white;
+  width: 15%; 
+  padding: clamp(10px, 2.5vw, 12px); 
+  background: #ff6b6b;
+  border: none; 
+  border-radius: 0 25px 25px 0; 
+  color: white;
 }
 
-.main-content { padding-top: 100px; padding-bottom: 100px; }
+.main-content { 
+  flex: 1; 
+  padding: clamp(100px, 18vw, 140px) clamp(12px, 3vw, 24px) 120px;
+  overflow: auto;
+}
 
 .category-grid {
-  display: grid; grid-template-columns: 1fr 1fr 1fr;
-  gap: 16px; padding: 20px 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: clamp(12px, 3vw, 20px);
+  padding: clamp(16px, 4vw, 24px);
 }
 
 .category-card {
-  background: white; border-radius: 16px; padding: 16px;
+  background: white; 
+  border-radius: 16px; 
+  padding: clamp(12px, 3vw, 16px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  text-align: center; cursor: pointer;
+  text-align: center; 
+  cursor: pointer;
 }
 
-.emoji { font-size: 28px; margin-bottom: 8px; }
-.cat-name { font-weight: bold; margin-bottom: 4px; }
-.top-ad { font-size: 14px; color: #666; }
+.emoji { 
+  font-size: clamp(32px, 8vw, 56px) !important;
+  margin-bottom: clamp(6px, 1.5vw, 12px);
+  line-height: 1;
+}
+
+.cat-name { 
+  font-weight: bold; 
+  margin-bottom: clamp(4px, 1vw, 8px);
+  font-size: clamp(14px, 3.5vw, 16px);
+}
+
+.top-ad { 
+  font-size: clamp(12px, 3vw, 14px); 
+  color: #666; 
+}
 
 .place-ad-btn {
-  position: fixed; bottom: 20px; left: 50%;
-  transform: translateX(-50%); width: 90%;
-  background: #00d4aa; color: white; border: none;
-  padding: 16px; border-radius: 25px; font-size: 18px;
-  font-weight: bold; box-shadow: 0 8px 24px rgba(0,212,170,0.4);
+  position: fixed; 
+  bottom: clamp(16px, 4vw, 24px); 
+  left: 50%;
+  transform: translateX(-50%); 
+  width: clamp(85%, 90vw, 420px);
+  background: #00d4aa; 
+  color: white; 
+  border: none;
+  padding: clamp(14px, 3vw, 20px); 
+  border-radius: 25px; 
+  font-size: clamp(16px, 4vw, 20px);
+  font-weight: bold; 
+  box-shadow: 0 8px 24px rgba(0,212,170,0.4);
 }
 
 .menu-overlay { 
-  position: fixed; top: 80px; left: 0; right: 0; 
-  background: white; z-index: 1000; padding: 20px;
+  position: fixed; 
+  top: clamp(70px, 12vw, 100px); 
+  left: 0; 
+  right: 0; 
+  background: white; 
+  z-index: 1000; 
+  padding: clamp(16px, 4vw, 20px);
 }

@@ -18,3 +18,4 @@ const UserProfile: React.FC<UserProfileProps> = ({ username, email, onLogout }) 
 }
 
 export default UserProfile
+// src/components/UserProfile/UserProfile.tsx
