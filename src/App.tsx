@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { init, backButton } from '@telegram-apps/sdk-react';
+import photoPng from './assets/photo.png'; // ← ФОН ИМПОРТ
 import Header from './components/Header/Header';
 import CategoryGrid from './components/CategoryGrid/CategoryGrid';
 import PlaceAdButton from './components/PlaceAdButton/PlaceAdButton';
@@ -15,28 +16,36 @@ function App() {
   const [page, setPage] = useState<Page>('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // ✅ ФИНАЛЬНЫЙ useEffect (ПК F11 + Мобильный fullscreen)
+  // ✅ Background style с photo.png
+  const bgStyle = {
+    backgroundImage: `url(${photoPng})`,
+    backgroundSize: 'cover' as const,
+    backgroundPosition: 'center' as const,
+    backgroundRepeat: 'no-repeat' as const,
+  };
+
+  // ✅ ФИНАЛЬНЫЙ useEffect (без ошибок локально)
   useEffect(() => {
     init();
     
-    if (window.Telegram?.WebApp) {
-      // ✅ Мобильный: 100vh без поля ввода
-      window.Telegram.WebApp.expand();
+    // ✅ Безопасная проверка Telegram WebApp
+    if (typeof window !== 'undefined' && window.Telegram?.WebApp) {
+      const tg = window.Telegram.WebApp;
       
-      // ✅ ПК: настоящий F11 fullscreen
-      if (window.Telegram.WebApp.requestFullscreen) {
-        window.Telegram.WebApp.requestFullscreen();
+      tg.expand(); // Мобильный fullscreen
+      
+      // ПК fullscreen (если доступно)
+      if (tg.requestFullscreen) {
+        tg.requestFullscreen();
       }
       
-      // ✅ MainButton (зеленая кнопка снизу)
-      window.Telegram.WebApp.MainButton.text = "🚀 Разместить объявление";
-      window.Telegram.WebApp.MainButton.onClick(() => {
-        setPage('add');
-      });
-      window.Telegram.WebApp.MainButton.show();
+      // MainButton
+      tg.MainButton.text = "🚀 Разместить объявление";
+      tg.MainButton.onClick(() => setPage('add'));
+      tg.MainButton.show();
       
-      // ✅ Фиолетовый градиент хедера Telegram
-      window.Telegram.WebApp.headerColor = "#6366f1";
+      // Хедер
+      tg.headerColor = "#6366f1";
     }
     
     backButton.mount();
@@ -51,7 +60,7 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <div className="app">
+    <div className="app" style={bgStyle}>
       <Header onMenuToggle={toggleMenu} />
       
       {isMenuOpen && (
