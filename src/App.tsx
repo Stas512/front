@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { init, backButton } from '@telegram-apps/sdk-react';
-import photoPng from './assets/photo.png'; // ← ФОН ИМПОРТ
+// ✅ УДАЛЁН импорт photoPng
 import Header from './components/Header/Header';
 import CategoryGrid from './components/CategoryGrid/CategoryGrid';
 import PlaceAdButton from './components/PlaceAdButton/PlaceAdButton';
@@ -16,9 +16,9 @@ function App() {
   const [page, setPage] = useState<Page>('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // ✅ Background style с photo.png
+  // ✅ PUBLIC ПУТЬ ДЛЯ GitHub Pages + Telegram
   const bgStyle = {
-    backgroundImage: `url(${photoPng})`,
+    backgroundImage: `url('/assets/photo.png')`, // ← ПУБЛИЧНЫЙ ПУТЬ
     backgroundSize: 'cover' as const,
     backgroundPosition: 'center' as const,
     backgroundRepeat: 'no-repeat' as const,
