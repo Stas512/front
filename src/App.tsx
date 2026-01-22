@@ -18,7 +18,7 @@ function App() {
 
   // ✅ PUBLIC ПУТЬ ДЛЯ GitHub Pages + Telegram
   const bgStyle = {
-    backgroundImage: `url('/assets/photo.png')`, // ← ПУБЛИЧНЫЙ ПУТЬ
+    backgroundImage: `url('./assets/photo.png')`, // ← ПУБЛИЧНЫЙ ПУТЬ
     backgroundSize: 'cover' as const,
     backgroundPosition: 'center' as const,
     backgroundRepeat: 'no-repeat' as const,
