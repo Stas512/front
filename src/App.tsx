@@ -15,7 +15,16 @@ function App() {
   const [page, setPage] = useState<Page>('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // ✅ ФИНАЛЬНЫЙ useEffect (без ошибок локально)
+  // ✅ DEV: Логирование initData (авто-удаляется в PROD)
+  if (import.meta.env.DEV) {
+    console.log('TG initData:', window.Telegram?.WebApp?.initData);
+  }
+
+  // ✅ PROD: Безопасный user data
+  const userId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id;
+  const userName = window.Telegram?.WebApp?.initDataUnsafe?.user?.first_name || 'Пользователь';
+
+  // ✅ ФИНАЛЬНЫЙ useEffect (Telegram GOLD STANDARD)
   useEffect(() => {
     init();
     
@@ -35,7 +44,7 @@ function App() {
       tg.MainButton.onClick(() => setPage('add'));
       tg.MainButton.show();
       
-      // Хедер
+      // Хедер градиент
       tg.headerColor = "#6366f1";
     }
     
@@ -51,7 +60,7 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <div className="app">  {/* ✅ ТОЛЬКО className! ФОН в CSS */}
+    <div className="app"> {/* ✅ ФОН photo.png из CSS */}
       <Header onMenuToggle={toggleMenu} />
       
       {isMenuOpen && (
@@ -70,7 +79,8 @@ function App() {
         {page === 'add' && <AddListing onAdd={() => {}} />}
         {page === 'profile' && (
           <UserProfile 
-            username="Пользователь" 
+            username={userName} 
+            userId={userId}
             email="example@domain.com" 
             onLogout={() => {}}
           />
