@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { init, backButton } from '@telegram-apps/sdk-react';
-// ✅ УДАЛЁН импорт photoPng
 import Header from './components/Header/Header';
 import CategoryGrid from './components/CategoryGrid/CategoryGrid';
 import PlaceAdButton from './components/PlaceAdButton/PlaceAdButton';
@@ -15,14 +14,6 @@ type Page = 'home' | 'search' | 'add' | 'profile';
 function App() {
   const [page, setPage] = useState<Page>('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // ✅ PUBLIC ПУТЬ ДЛЯ GitHub Pages + Telegram
-  const bgStyle = {
-    backgroundImage: `url('./assets/photo.png')`, // ← ПУБЛИЧНЫЙ ПУТЬ
-    backgroundSize: 'cover' as const,
-    backgroundPosition: 'center' as const,
-    backgroundRepeat: 'no-repeat' as const,
-  };
 
   // ✅ ФИНАЛЬНЫЙ useEffect (без ошибок локально)
   useEffect(() => {
@@ -60,7 +51,7 @@ function App() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
-    <div className="app" style={bgStyle}>
+    <div className="app">  {/* ✅ ТОЛЬКО className! ФОН в CSS */}
       <Header onMenuToggle={toggleMenu} />
       
       {isMenuOpen && (
